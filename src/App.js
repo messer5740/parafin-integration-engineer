@@ -1,23 +1,18 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { ParafinWidget } from "@parafin/react";
 import { Header } from "./components/Header.tsx";
-import { SideNav } from "./components/SideNav.tsx";
 
 function App() {
   const [token, setToken] = useState(null);
-  const [tab, setTab] = useState("capital");
 
   useEffect(() => {
-    // Change to false to use production or sandbox production environment
-    const isDevEnvironment = true;
+    const isDevEnvironment = false;
 
     const fetchToken = async () => {
-      // Replace with your own Person ID. It should begin with "person_".
-      const personId = "<your-person-id>";
+      const personId = "person_78d31247-840d-4e58-b80c-099e9cbf3a18";
 
-      // Fetch Parafin token from server
       const response = await axios.get(
         `/parafin/token/${personId}/${isDevEnvironment}`
       );
@@ -27,10 +22,10 @@ function App() {
     if (!token) {
       fetchToken();
     }
-  });
+  }, [token]);
 
   const onOptIn = async () => ({
-    businessExternalId: "<your-external-business-id>",
+    businessExternalId: "person_78d31247-840d-4e58-b80c-099e9cbf3a18",
     legalBusinessName: "Hearty Kitchens LLC",
     dbaName: "Hearty Kitchens",
     ownerFirstName: "Ralph",
@@ -63,28 +58,14 @@ function App() {
     <div>
       <Header />
       <ContentShell>
-        <SideNav onClick={(newProduct) => setTab(newProduct)} />
-        {tab === "capital" && (
-          <PageShell>
-            <ParafinWidget
-              token={token}
-              product="capital"
-              // Optional props below, see docs.parafin.com for more information
-              externalBusinessId={undefined}
-              onOptIn={onOptIn}
-            />
-          </PageShell>
-        )}
-        {tab === "analytics" && (
-          <PageShell>
-            <h2>Analytics</h2>
-          </PageShell>
-        )}
-        {tab === "payouts" && (
-          <PageShell>
-            <h2>Payouts</h2>
-          </PageShell>
-        )}
+        <PageShell>
+          <ParafinWidget
+            token={token}
+            product="capital"
+            externalBusinessId={undefined}
+            onOptIn={onOptIn}
+          />
+        </PageShell>
       </ContentShell>
     </div>
   );
@@ -94,7 +75,7 @@ export default App;
 
 const ContentShell = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 `;
 
 const LoadingShell = styled.div`
@@ -102,7 +83,6 @@ const LoadingShell = styled.div`
 `;
 
 const PageShell = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
   padding: 20px;

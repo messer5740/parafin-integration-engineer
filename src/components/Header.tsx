@@ -7,7 +7,7 @@ export const partnerColorAlpha = "#00836314";
 export const Header = () => {
   return (
     <HeaderShell>
-      <StyledHeader>Parafin Widget Quickstart</StyledHeader>
+      <StyledHeader>GrubDash Example</StyledHeader>
     </HeaderShell>
   );
 };
